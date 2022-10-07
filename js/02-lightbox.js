@@ -1,18 +1,17 @@
 import { galleryItems } from './gallery-items.js';
-// Change code below this line
-
-console.log(galleryItems);
-
-
 
 const globalDiv = document.querySelector('.gallery');
-for(let galleryItem of galleryItems){
-    globalDiv.insertAdjacentHTML('beforeend',`<a class="gallery__link" onclick="return false" href="${galleryItem.original}"> <img class="gallery__image" src="${galleryItem.preview}" data-source="${galleryItem.original}"  alt="${galleryItem.description}" /></a>`);
-    console.log(globalDiv);
-}
-// const dataValue = evt.target.getAttribute('data-source');
-new SimpleLightbox('.gallery a');
+function createGalleryMarkup(galleryItems) {
+    return galleryItems
+      .map(({ preview, original, description }) => {
+        return `
+        <div class="gallery__item"><a class="gallery__link" onclick="return false" href="${original}"> <img class="gallery__image" src="${preview}" data-source="${original}"  alt="${description}" /></a></div>
+      `;
+      })
+      .join("");
+  }
 
-//  gallery.on('show.simplelightbox', function () {
-//      `<img class="gallery__item" src="${dataValue}" alt="Картинка не подгружаеться">`
-//  });
+  globalDiv.innerHTML = createGalleryMarkup(galleryItems);
+
+  new SimpleLightbox('.gallery a');
+
